@@ -1,5 +1,5 @@
 @startuml hospitalDiagram
-title Hospital Mock System UML Diagram
+title Hospital System UML Diagram
 
 abstract class Human {
   - name : string
@@ -51,9 +51,7 @@ class Hospital {
 
 ' Relationships
 Hospital *--> HospitalService : uses
-Hospital o--> Doctor : manages >
-Hospital o--> Patient : manages >
-Doctor -|> Human
-Patient -|> Human
+Hospital o--> Doctor : has >
+Hospital o--> Patient : has >
 
 @enduml
