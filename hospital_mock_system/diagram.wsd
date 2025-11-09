@@ -1,0 +1,59 @@
+@startuml hospitalDiagram
+title Hospital Mock System UML Diagram
+
+abstract class Human {
+  - name : string
+  - age : unsigned
+
+  + Human()
+  + Human(name : string, age : unsigned)
+  + getName() : string
+  + getAge() : unsigned
+  + displayInfo() : void
+  + ~Human()
+}
+
+class Doctor extends Human {
+  - expertise : string
+
+  + Doctor(name : string, age : unsigned, expertise : string)
+  + getExpertise() : string
+  + displayInfo() : void
+}
+
+class Patient extends Human {
+  - diagnosis : string
+  - needs : string
+
+  + Patient(name : string, age : unsigned, diagnosis : string, needs : string)
+  + getDiagnosis() : string
+  + getNeeds() : string
+  + displayInfo() : void
+}
+
+class HospitalService {
+  + checkDoctor(doctor : Doctor*) : bool
+  + checkPatient(patient : Patient*, doctors : vector<Doctor*>) : bool
+}
+
+class Hospital {
+  - name : string
+  - people : vector<Human*>
+  - doctors : vector<Doctor*>
+  - service : HospitalService*
+
+  + Hospital(name : string, service : HospitalService*)
+  + addDoctor(doctor : Doctor*) : void
+  + addPatient(patient : Patient*) : void
+  + printAll() : void
+  + getDoctors() : vector<Doctor*>
+}
+
+' Relationships
+Hospital *--> HospitalService : uses
+Hospital o--> Doctor : manages >
+Hospital o--> Patient : manages >
+Doctor -|> Human
+Patient -|> Human
+
+@enduml
