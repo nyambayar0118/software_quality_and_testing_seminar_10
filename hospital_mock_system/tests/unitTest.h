@@ -39,11 +39,17 @@ void runUnitTest()
 
     // ---------- HospitalService Unit ----------
     HospitalService service;
-    Doctor d1("Dr. Naruto", 35, "Cardiology");
-    Doctor d2("Dr. Boruto", 22, "Neurology");
+    Doctor d1("Dr. Naruto", 24, "Cardiology");
+    Doctor d2("Dr. Boruto", 25, "Resident");
+    Doctor d3("Dr. Sakura", 47, "Pediatrician");
+    Doctor d4("Dr. Sasuke", 70, "Surgeon");
+    Doctor d5("Dr. Kakashi", 71, "Neurology");
 
-    assert(service.checkDoctor(&d1));
-    assert(!service.checkDoctor(&d2));
+    assert(!service.checkDoctor(&d1));
+    assert(service.checkDoctor(&d2));
+    assert(service.checkDoctor(&d3));
+    assert(service.checkDoctor(&d4));
+    assert(!service.checkDoctor(&d5));
     cout << "HospitalService doctor check passed.\n";
 
     vector<Doctor *> docs = {&d1};
