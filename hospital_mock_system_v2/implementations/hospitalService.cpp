@@ -14,3 +14,5 @@ bool HospitalService::checkPatient(Patient *patient, const std::vector<Doctor *>
             return true;
     return false;
 }
+
+bool HospitalService::checkTime()
