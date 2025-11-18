@@ -1,31 +1,39 @@
 #ifndef BOOKING_H
 #define BOOKING_H
 
-#include "doctor.h"
-#include "patient.h"
+#include <string>
+#include "Patient.h"
+#include "Doctor.h"
 
 class Booking
 {
 private:
-    // The booking has a date and time
-    unsigned year;
-    unsigned month;
-    unsigned day;
+    unsigned year, month, day;
+    unsigned beginHour, beginMinute;
+    unsigned endHour, endMinute;
 
-    unsigned beginHour;
-    unsigned beginMinute;
-
-    unsigned endHour;
-    unsigned endMinute;
-
-    Patient *patient; // Patient who is booking the time
-    Doctor *doctor;   // The doctor who was chosen
+    Patient *patient;
+    Doctor *doctor;
 
 public:
-    Booking(unsigned year, unsigned month, unsigned day, unsigned beginHour, unsigned beginMinute, unsigned endHour, unsigned endMinute, Patient *patient, Doctor *doctor);
+    Booking(unsigned year, unsigned month, unsigned day,
+            unsigned beginHour, unsigned beginMinute,
+            unsigned endHour, unsigned endMinute,
+            Patient *patient, Doctor *doctor);
 
-    bool checkValidTime(unsigned beginHour, unsigned beginMinute, unsigned endHour, unsigned endMinute);
-    bool checkValidDate(unsigned year, unsigned month, unsigned day);
+    Patient *getPatient() const;
+    Doctor *getDoctor() const;
+
+    bool isValidTime() const;
+    bool isValidDate() const;
+
+    int getStartMinutes() const;
+    int getEndMinutes() const;
+
+    unsigned getYear() const;
+    unsigned getMonth() const;
+    unsigned getDay() const;
+
     void printBooking() const;
 };
 

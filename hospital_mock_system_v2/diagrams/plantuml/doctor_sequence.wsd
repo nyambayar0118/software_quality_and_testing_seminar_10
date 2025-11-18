@@ -1,0 +1,39 @@
+@startuml addDoctorSequence
+title Sequence Diagram – Add Doctor
+
+actor Clerk
+
+activate Hospital
+activate PeopleManager
+
+Clerk -> Doctor : create d1("Dr. Who")
+activate Doctor
+Doctor --> Clerk : pointer d1
+deactivate Doctor
+
+' --- First addDoctor(d1)
+Clerk -> PeopleManager : addDoctor(h, d1)
+activate PeopleManager
+PeopleManager -> PeopleManager : checkDoctor(d1)
+PeopleManager --> Clerk : true
+PeopleManager -> Hospital : add d1 to doctors + humans
+deactivate PeopleManager
+
+
+Clerk -> Doctor : create d2("Resident")
+activate Doctor
+Doctor --> Clerk : pointer d2
+deactivate Doctor
+
+' --- Second addDoctor(d2)
+Clerk -> PeopleManager : addDoctor(h, d2)
+activate PeopleManager
+PeopleManager -> PeopleManager : checkDoctor(d2)
+PeopleManager --> Clerk : false
+deactivate PeopleManager
+
+Clerk -> Clerk : assert(h.doctors.size()==1)
+
+deactivate Hospital
+
+@enduml

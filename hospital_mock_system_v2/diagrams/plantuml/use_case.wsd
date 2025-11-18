@@ -1,0 +1,16 @@
+@startuml useCaseForClerk
+left to right direction
+
+actor Clerk
+
+rectangle "Hospital Mock System V2" {
+    usecase "Add Doctor" as UC1
+    usecase "Add Patient" as UC2
+    usecase "Add Booking" as UC3
+}
+
+Clerk --> UC1
+Clerk --> UC2
+Clerk --> UC3
+
+@enduml

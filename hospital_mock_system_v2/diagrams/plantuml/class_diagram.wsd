@@ -1,25 +1,32 @@
-@startuml improvedHospitalSystem
-title Improved Hospital System Architecture
+@startuml hospitalMockSystemV2
+title Hospital Mock System v2 
 
 ' ------------------ Base Human ------------------
 abstract class Human {
   - name : string
   - age : unsigned
+  + Human()
+  + Human(name : string, age : unsigned)
   + getName() : string
   + getAge() : unsigned
   + displayInfo() : void
+  + ~Human()
 }
 
 class Doctor extends Human {
   - expertise : string
+  + Doctor(name : string, age : unsigned, expertise : string)
   + getExpertise() : string
+  + displayInfo() : void
 }
 
 class Patient extends Human {
   - diagnosis : string
   - needs : string
+  + Patient(name : string, age : unsigned, diagnosis : string, needs : string)
   + getDiagnosis() : string
   + getNeeds() : string
+  + displayInfo() : void
 }
 
 ' ------------------ Booking ------------------
@@ -33,18 +40,33 @@ class Booking {
   - endMinute : unsigned
   - patient : Patient*
   - doctor : Doctor*
+
+  + Booking(year,month,day,beginHour,beginMinute,endHour,endMinute,patient,doctor)
+  + getPatient() : Patient*
+  + getDoctor() : Doctor*
+  + isValidTime() : bool
+  + isValidDate() : bool
+  + getStartMinutes() : int
+  + getEndMinutes() : int
+  + getYear() : unsigned
+  + getMonth() : unsigned
+  + getDay() : unsigned
+  + printBooking() : void
 }
 
-' ------------------ Data Class ------------------
+' ------------------ Hospital (Data Class) ------------------
 class Hospital {
-  - name : string
-  - humans : vector<Human*>
-  - doctors : vector<Doctor*>
-  - patients : vector<Patient*>
-  - bookings : vector<Booking*>
+  + name : string
+  + humans : vector<Human*>
+  + doctors : vector<Doctor*>
+  + patients : vector<Patient*>
+  + bookings : vector<Booking*>
+
+  + Hospital(name : string)
+  + printHumans() : void
 }
 
-' ------------------ Managers ------------------
+' ------------------ PeopleManager ------------------
 class PeopleManager {
   + addDoctor(hospital : Hospital*, doctor : Doctor*) : bool
   + addPatient(hospital : Hospital*, patient : Patient*) : bool
@@ -52,24 +74,24 @@ class PeopleManager {
   + checkPatient(patient : Patient*, doctors : vector<Doctor*>) : bool
 }
 
+' ------------------ BookingManager ------------------
 class BookingManager {
   + addBooking(hospital : Hospital*, booking : Booking*) : bool
-  + checkValidDate(booking : Booking*) : bool
-  + checkValidTime(booking : Booking*) : bool
   + hasConflict(hospital : Hospital*, booking : Booking*) : bool
-  + getBookings(hospital : Hospital*) : vector<Booking*>
 }
 
 ' ------------------ Relationships ------------------
+
 Hospital o--> Doctor
 Hospital o--> Patient
 Hospital o--> Booking
+Hospital o--> Human
 
 Booking --> Doctor
 Booking --> Patient
 
-PeopleManager --> Hospital : modifies >
-BookingManager --> Hospital : modifies >
-
+PeopleManager --> Hospital : manages >
+BookingManager --> Hospital : manages >
+BookingManager --> Booking : schedules >
 
 @enduml

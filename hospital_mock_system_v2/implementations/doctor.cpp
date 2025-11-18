@@ -1,15 +1,14 @@
-#include "doctor.h"
+#include "Doctor.h"
 #include <iostream>
-using namespace std;
 
-Doctor::Doctor(string name, unsigned age, string expertise)
+Doctor::Doctor(const std::string &name, unsigned age, const std::string &expertise)
     : Human(name, age), expertise(expertise) {}
 
-string Doctor::getExpertise() const { return expertise; }
+std::string Doctor::getExpertise() const { return expertise; }
 
 void Doctor::displayInfo() const
 {
-    cout << "Doctor: " << getName()
-         << ", Age: " << getAge()
-         << ", Expertise: " << expertise << endl;
+    std::cout << "Doctor: " << name
+              << " | Age: " << age
+              << " | Expertise: " << expertise << "\n";
 }

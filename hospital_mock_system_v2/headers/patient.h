@@ -1,17 +1,18 @@
 #ifndef PATIENT_H
 #define PATIENT_H
 
-#include "human.h"
+#include "Human.h"
+#include <string>
 
 class Patient : public Human
 {
 private:
-    // Patient has a diagnosis and a needs attribute for which doctor they need
     std::string diagnosis;
-    std::string needs; // Example: The patient needs a Neurologist if they have headache
+    std::string needs; // required doctor expertise
 
 public:
-    Patient(std::string name, unsigned age, std::string diagnosis, std::string needs);
+    Patient(const std::string &name, unsigned age,
+            const std::string &diagnosis, const std::string &needs);
 
     std::string getDiagnosis() const;
     std::string getNeeds() const;

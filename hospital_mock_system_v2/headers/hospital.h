@@ -3,31 +3,23 @@
 
 #include <string>
 #include <vector>
-#include "human.h"
-#include "doctor.h"
-#include "patient.h"
-#include "hospitalService.h"
+#include "Human.h"
+#include "Doctor.h"
+#include "Patient.h"
+#include "Booking.h"
 
 class Hospital
 {
-private:
-    // The hospital has a name
-    std::string name;
-    std::vector<Human *> people;   // All the patient
-    std::vector<Doctor *> doctors; // All the doctors
-
-    // A hospital service for doing all the logic
-    HospitalService *service;
-
 public:
-    Hospital(std::string name, HospitalService *service);
+    std::string name;
 
-    void addDoctor(Doctor *doctor);
-    void addPatient(Patient *patient);
-    void printAll() const;
-    std::vector<Doctor *> getDoctors() const;
+    std::vector<Human *> humans;
+    std::vector<Doctor *> doctors;
+    std::vector<Patient *> patients;
+    std::vector<Booking *> bookings;
 
-    friend class HospitalService;
+    Hospital(const std::string &name);
+    void printHumans() const;
 };
 
 #endif

@@ -1,0 +1,53 @@
+@startuml addPatientSequence
+title Sequence Diagram – Add Patient
+
+actor Clerk
+
+activate Hospital
+activate PeopleManager
+
+' --- Create doctor
+Clerk -> Doctor : create d1("Dr. Murphy")
+activate Doctor
+Doctor --> Clerk : pointer d1
+deactivate Doctor
+
+' --- Add doctor first (needed for patient eligibility)
+Clerk -> PeopleManager : addDoctor(h, d1)
+activate PeopleManager
+PeopleManager -> PeopleManager : checkDoctor(d1)
+PeopleManager --> Clerk : true
+PeopleManager -> Hospital : add d1 to doctors + humans
+deactivate PeopleManager
+
+
+' --- Create patients
+Clerk -> Patient : create p1("Elisabeth")
+activate Patient
+Patient --> Clerk : pointer p1
+deactivate Patient
+
+' --- Add patient 1 (success)
+Clerk -> PeopleManager : addPatient(h, p1)
+activate PeopleManager
+PeopleManager -> PeopleManager : checkPatient(p1, doctors)
+PeopleManager --> Clerk : true
+PeopleManager -> Hospital : add p1 to patients + humans
+deactivate PeopleManager
+
+Clerk -> Patient : create p2("Jack Sparrow")
+activate Patient
+Patient --> Clerk : pointer p2
+deactivate Patient
+
+' --- Add patient 2 (fail — no Neurology doctor)
+Clerk -> PeopleManager : addPatient(h, p2)
+activate PeopleManager
+PeopleManager -> PeopleManager : checkPatient(p2, doctors)
+PeopleManager --> Clerk : false
+deactivate PeopleManager
+
+
+deactivate Hospital
+
+@enduml

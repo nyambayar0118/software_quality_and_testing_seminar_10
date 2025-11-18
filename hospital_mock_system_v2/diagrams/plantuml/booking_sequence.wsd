@@ -1,0 +1,91 @@
+@startuml addBookingSequence
+title Sequence Diagram – Add Booking
+
+actor Clerk
+
+activate Hospital
+activate PeopleManager
+activate BookingManager
+
+
+' --- Create doctor
+Clerk -> Doctor : create d1("Dr. Robotnik")
+activate Doctor
+Doctor --> Clerk : pointer d1
+deactivate Doctor
+
+' --- Add doctor
+Clerk -> PeopleManager : addDoctor(h, d1)
+activate PeopleManager
+PeopleManager -> PeopleManager : checkDoctor(d1)
+PeopleManager --> Clerk : true
+PeopleManager -> Hospital : add d1 to doctors + humans
+deactivate PeopleManager
+
+
+' --- Create patient
+Clerk -> Patient : create p1("Sonic")
+activate Patient
+Patient --> Clerk : pointer p1
+deactivate Patient
+
+' --- Add patient
+Clerk -> PeopleManager : addPatient(h, p1)
+activate PeopleManager
+PeopleManager -> PeopleManager : checkPatient(p1, doctors)
+PeopleManager --> Clerk : true
+PeopleManager -> Hospital : add p1 to patients + humans
+deactivate PeopleManager
+
+
+' --- Booking 1 (valid)
+Clerk -> Booking : create b1(10:00-11:00)
+activate Booking
+Booking --> Clerk : pointer b1
+deactivate Booking
+
+Clerk -> BookingManager : addBooking(h, b1)
+activate BookingManager
+BookingManager -> Booking : isValidDate()
+Booking --> BookingManager : true
+BookingManager -> Booking : isValidTime()
+Booking --> BookingManager : true
+BookingManager -> BookingManager : hasConflict(h, b1)
+BookingManager --> Clerk : false (no conflict)
+BookingManager -> Hospital : add b1 to bookings
+deactivate BookingManager
+
+
+' --- Booking 2 (conflict)
+Clerk -> Booking : create b2(10:30-11:30)
+activate Booking
+Booking --> Clerk : pointer b2
+deactivate Booking
+
+Clerk -> BookingManager : addBooking(h, b2)
+activate BookingManager
+BookingManager -> Booking : isValidDate()
+Booking --> BookingManager : true
+BookingManager -> Booking : isValidTime()
+Booking --> BookingManager : true
+BookingManager -> BookingManager : hasConflict(h, b2)
+BookingManager --> Clerk : true (conflict)
+deactivate BookingManager
+
+
+' --- Booking 3 (valid)
+Clerk -> Booking : create b3(11:00-12:00)
+activate Booking
+Booking --> Clerk : pointer b3
+deactivate Booking
+
+Clerk -> BookingManager : addBooking(h, b3)
+activate BookingManager
+BookingManager -> BookingManager : hasConflict(h, b3)
+BookingManager --> Clerk : false (no conflict)
+BookingManager -> Hospital : add b3 to bookings
+deactivate BookingManager
+
+deactivate Hospital
+
+@enduml
